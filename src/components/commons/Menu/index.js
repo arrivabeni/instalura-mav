@@ -1,26 +1,26 @@
 /* eslint-disable arrow-body-style */
 import React from 'react';
-import { MenuWrapper } from './styles/MenuWrapper';
 import { Logo } from '../../../theme/Logo';
-import { Text } from '../../foundation/Text';
+import Text from '../../foundation/Text';
 import { Button } from '../Button';
+import { MenuWrapper } from './styles/MenuWrapper';
+
+const links = [
+  {
+    texto: 'Home',
+    url: '/',
+  },
+  {
+    texto: 'Perguntas frequentes',
+    url: '/faq',
+  },
+  {
+    texto: 'Sobre',
+    url: '/sobre',
+  },
+];
 
 export default function Menu() {
-  const links = [
-    {
-      texto: 'Home',
-      url: '/',
-    },
-    {
-      texto: 'Perguntas frequentes',
-      url: '/faq',
-    },
-    {
-      texto: 'Sobre',
-      url: '/sobre',
-    },
-  ];
-
   return (
     <MenuWrapper>
       <MenuWrapper.LeftSide>
@@ -38,10 +38,10 @@ export default function Menu() {
         })}
       </MenuWrapper.CentralSide>
       <MenuWrapper.RightSide>
-        <Button type="button" ghost variant="secondary.main">
+        <Button ghost variant="secondary.main">
           Entrar
         </Button>
-        <Button type="button" variant="primary.main">
+        <Button variant="primary.main">
           Cadastrar
         </Button>
       </MenuWrapper.RightSide>
