@@ -8,6 +8,7 @@
     "start": "next start",
     "eslint:init": "eslint --init",
     "lint": "eslint --ignore-path .gitignore .",
+    "custom-script": "node ./script-test.js",
     "lint_old": "eslint ./ --fix"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-is": "^16.8.0",
+    "shelljs": "^0.8.4",
     "styled-components": "^5.0.0",
     "styled-normalize": "^8.0.7"
   },
