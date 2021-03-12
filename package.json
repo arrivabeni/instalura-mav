@@ -9,6 +9,7 @@
     "eslint:init": "eslint --init",
     "lint": "eslint --ignore-path .gitignore .",
     "custom-script": "node ./script-test.js",
+    "commit": "cz",
     "lint_old": "eslint ./ --fix"
   },
   "dependencies": {
@@ -25,7 +26,10 @@
     "styled-normalize": "^8.0.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
     "babel-plugin-styled-components": "^1.8.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.19.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
@@ -36,8 +40,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm lint"
+      "pre-push": "npm lint",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
-  "license": "MIT"
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
