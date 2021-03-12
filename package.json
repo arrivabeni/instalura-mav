@@ -40,7 +40,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm lint"
+      "pre-push": "npm lint",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "license": "MIT",
