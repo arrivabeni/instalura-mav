@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import styled, { css } from 'styled-components';
 import { propToStyle } from '../../../theme/utils/propToStyle';
 import { breakpointsMedia } from '../../../theme/utils/breakpointsMedia';
-import { Link } from '../../commons/Link';
+import Link from '../../commons/Link';
 
 export const TextStyleVariantsMap = {
   paragraph1: css`
@@ -18,26 +18,27 @@ export const TextStyleVariantsMap = {
     line-height: ${({ theme }) => theme.typographyVariants.smallestException.lineHeight};
   `,
   title: css`
-  ${({ theme }) => css`
-    font-size: ${theme.typographyVariants.titleXS.fontSize};
-    font-weight: ${theme.typographyVariants.titleXS.fontWeight};
-    line-height: ${theme.typographyVariants.titleXS.lineHeight};
-  `}
-  ${breakpointsMedia({
+    ${({ theme }) => css`
+      font-size: ${theme.typographyVariants.titleXS.fontSize};
+      font-weight: ${theme.typographyVariants.titleXS.fontWeight};
+      line-height: ${theme.typographyVariants.titleXS.lineHeight};
+    `}
+    ${breakpointsMedia({
     md: css`
-      ${({ theme }) => css`
-        font-size: ${theme.typographyVariants.title.fontSize};
-        font-weight: ${theme.typographyVariants.title.fontWeight};
-        line-height: ${theme.typographyVariants.title.lineHeight};
-      `}
-    `,
+        ${({ theme }) => css`
+          font-size: ${theme.typographyVariants.title.fontSize};
+          font-weight: ${theme.typographyVariants.title.fontWeight};
+          line-height: ${theme.typographyVariants.title.lineHeight};
+        `}
+      `,
   })}
-`,
+  `,
 };
 
 const TextBase = styled.span`
   ${(props) => TextStyleVariantsMap[props.variant]}
   color: ${(props) => get(props.theme, `colors.${props.color}.color`)};
+
   ${propToStyle('textAlign')}
   ${propToStyle('marginBottom')}
   ${propToStyle('margin')}
@@ -50,16 +51,29 @@ export default function Text({
   href,
   ...props
 }) {
-  const isLink = Boolean(href);
-  const componentTag = isLink ? Link : tag;
+  if (href) {
+    return (
+      <TextBase
+        as={Link}
+        href={href}
+        variant={variant}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
+      >
+        {children}
+      </TextBase>
+    );
+  }
 
   return (
     <TextBase
-      as={componentTag}
+      as={tag}
       variant={variant}
-      href={href}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
+      // style
+      // className
+      // e ai vai
     >
       {children}
     </TextBase>
@@ -68,9 +82,9 @@ export default function Text({
 
 Text.propTypes = {
   tag: PropTypes.string,
+  href: PropTypes.string,
   variant: PropTypes.string,
   children: PropTypes.node,
-  href: PropTypes.string,
 };
 
 Text.defaultProps = {
@@ -79,3 +93,7 @@ Text.defaultProps = {
   children: null,
   href: '',
 };
+
+// p
+// h1, h2 ... h6
+// span
