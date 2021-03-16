@@ -1,13 +1,13 @@
-/* eslint-disable func-names */
 /* eslint-disable import/prefer-default-export */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import get from 'lodash/get';
+import Link from '../Link';
 import { TextStyleVariantsMap } from '../../foundation/Text';
 import { breakpointsMedia } from '../../../theme/utils/breakpointsMedia';
 import { propToStyle } from '../../../theme/utils/propToStyle';
-import { Link } from '../Link';
 
 const ButtonGhost = css`
   color: ${(props) => get(props.theme, `colors.${props.variant}.color`)};
@@ -16,12 +16,8 @@ const ButtonGhost = css`
 
 const ButtonDefault = css`
   color: white;
-  background-color: ${function (props) {
-    return get(props.theme, `colors.${props.variant}.color`);
-  }};
-  color: ${function (props) {
-    return get(props.theme, `colors.${props.variant}.contrastText`);
-  }};
+  background-color: ${(props) => get(props.theme, `colors.${props.variant}.color`)};
+  color: ${(props) => get(props.theme, `colors.${props.variant}.contrastText`)};
 `;
 
 const ButtonWrapper = styled.button`
@@ -32,7 +28,7 @@ const ButtonWrapper = styled.button`
   opacity: 1;
   border-radius: 8px;
   ${TextStyleVariantsMap.smallestException}
-  ${function (props) {
+  ${(props) => {
     if (props.ghost) {
       return ButtonGhost;
     }
@@ -54,7 +50,6 @@ const ButtonWrapper = styled.button`
      ${TextStyleVariantsMap.paragraph1}
     `,
   })}
-  
   &:disabled {
     cursor: not-allowed;
     opacity: .2;
@@ -62,20 +57,23 @@ const ButtonWrapper = styled.button`
   ${({ fullWidth }) => fullWidth && css`
     width: 100%;
   `};
-
   ${propToStyle('margin')}
   ${propToStyle('display')}
 `;
 
-export const Button = ({ href, ...props }) => {
-  const isLink = Boolean(href);
-  const componentTag = isLink ? Link : 'button';
-
+export function Button({ href, children, ...props }) {
+  const hasHref = Boolean(href);
+  const tag = hasHref ? Link : 'button';
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <ButtonWrapper as={componentTag} href={href} {...props} />
+    <ButtonWrapper
+      as={tag}
+      href={href}
+      {...props}
+    >
+      {children}
+    </ButtonWrapper>
   );
-};
+}
 
 Button.defaultProps = {
   href: undefined,
@@ -83,4 +81,5 @@ Button.defaultProps = {
 
 Button.propTypes = {
   href: PropTypes.string,
+  children: PropTypes.node.isRequired,
 };
