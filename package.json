@@ -11,7 +11,7 @@
     "custom-script": "node ./script-test.js",
     "commit": "cz",
     "test:integration:open": "cypress open",
-    "test:integration:run": "cypress run --headed",
+    "test:integration": "cypress run --headless",
     "lint_old": "eslint ./ --fix"
   },
   "dependencies": {
