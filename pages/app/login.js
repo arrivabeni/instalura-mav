@@ -1,4 +1,3 @@
-import React from 'react';
 import websitePageHOC from '../../src/components/wrappers/WebsitePage/hoc';
 import LoginScreen from '../../src/components/screens/app/LoginScreen';
 
