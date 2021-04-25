@@ -12,11 +12,16 @@
     "commit": "cz",
     "test:integration:open": "cypress open",
     "test:integration": "cypress run --headless",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint_old": "eslint ./ --fix"
   },
   "dependencies": {
     "@crello/react-lottie": "^0.0.11",
+    "@types/jest": "^26.0.22",
+    "eslint-plugin-jest": "^24.3.5",
     "framer-motion": "^3.7.0",
+    "jest": "^26.6.3",
     "lodash": "^4.17.20",
     "next": "latest",
     "nookies": "^2.5.2",
