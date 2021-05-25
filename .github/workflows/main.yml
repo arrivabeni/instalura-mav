@@ -18,14 +18,18 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # [[AJUSTES GERAIS]]
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # [Pre Build-step]
+      - uses: actions/checkout@v2 ## Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/setup-node@v1
         with:
           node-version: '14.15.4'
-      ##################################
-      ##################################
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # ####################
 
       # Runs a single command using the runners shell
       - name: Node Version
@@ -37,8 +41,8 @@ jobs:
 
   unit_tests:
     name: Unit Tests
-    runs-on: ubuntu-latest # The type of runner that the job will run on
-    steps: # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: ubuntu-latest
+    steps:
       # [Pre Build-step]
       - uses: actions/checkout@v2 ## Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/setup-node@v1
