@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import * as yup from 'yup';
 import { Button } from '../../commons/Button';
@@ -9,15 +10,15 @@ import { loginService } from '../../../services/login/loginService';
 const loginSchema = yup.object().shape({
   usuario: yup
     .string()
-    .min(3, 'Preencha ao menos 3 caracteres')
-    .required('"Usuario" é obrigatório'),
+    .required('"Usuario" é obrigatório')
+    .min(3, 'Preencha ao menos 3 caracteres'),
   senha: yup
     .string()
-    .min(8, 'Sua senha precisa ter ao menos 8 caracteres')
-    .required('"Senha" é obrigatória'),
+    .required('"Senha" é obrigatória')
+    .min(8, 'Sua senha precisa ter ao menos 8 caracteres'),
 });
 
-export default function LoginForm() {
+export default function LoginForm({ onSubmit }) {
   const router = useRouter();
   const initialValues = {
     usuario: '',
@@ -27,12 +28,20 @@ export default function LoginForm() {
   const form = useForm({
     initialValues,
     onSubmit: (values) => {
+      form.setIsFormDisabled(true);
       loginService.login({
         username: values.usuario, // 'omariosouto'
         password: values.senha, // 'senhasegura'
       })
         .then(() => {
           router.push('/app/profile');
+        })
+        .catch((err) => {
+          // Desafio: Mostrar o erro na tela
+          console.error(err);
+        })
+        .finally(() => {
+          form.setIsFormDisabled(false);
         });
     },
     async validateSchema(values) {
@@ -43,7 +52,7 @@ export default function LoginForm() {
   });
 
   return (
-    <form id="formCadastro" onSubmit={form.handleSubmit}>
+    <form id="formCadastro" onSubmit={onSubmit || form.handleSubmit}>
       <TextField
         placeholder="Usuário"
         name="usuario"
@@ -78,7 +87,12 @@ export default function LoginForm() {
       </Button>
     </form>
   );
-  // <pre>
-  //  {JSON.stringify(form.touched, null, 4)}
-  // </pre>
 }
+
+LoginForm.defaultProps = {
+  onSubmit: undefined,
+};
+
+LoginForm.propTypes = {
+  onSubmit: PropTypes.func,
+};
