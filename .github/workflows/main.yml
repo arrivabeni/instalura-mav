@@ -18,19 +18,71 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # [[AJUSTES GERAIS]]
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      # [Pre Build-step]
+      - uses: actions/checkout@v2 ## Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/setup-node@v1
         with:
           node-version: '14.15.4'
-      ##################################
-      ##################################
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # ####################
 
       # Runs a single command using the runners shell
       - name: Node Version
         run: node -v
       - name: Install de dependencias
-        run: npm install
+        run: npm install --prefer-offline
       - name: Roda o Linter!
         run: npm run lint
+
+  unit_tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      # [Pre Build-step]
+      - uses: actions/checkout@v2 ## Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.15.4'
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # ####################
+
+      # Commands that will run:
+      - name: Install Packages
+        run: npm install --prefer-offline
+
+      - name: Run Unit Tests
+        run: npm run test
+
+  integration_tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      # [Pre Build-step]
+      - uses: actions/checkout@v2 ## Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.15.4'
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      # ####################
+
+      # Commands that will run:
+      - name: Install Packages
+        run: npm install --prefer-offline
+
+      - name: Run Integration Tests
+        run: npm run test:integration:build
