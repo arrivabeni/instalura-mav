@@ -35,7 +35,7 @@ jobs:
       - name: Node Version
         run: node -v
       - name: Install de dependencias
-        run: npm install
+        run: npm install --prefer-offline
       - name: Roda o Linter!
         run: npm run lint
 
@@ -58,7 +58,7 @@ jobs:
 
       # Commands that will run:
       - name: Install Packages
-        run: npm install
+        run: npm install --prefer-offline
 
       - name: Run Unit Tests
         run: npm run test
