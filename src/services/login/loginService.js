@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { setCookie, destroyCookie } from 'nookies';
 import { isStagingEnv } from '../../infra/env/isStagingEnv';
 
@@ -27,8 +26,12 @@ const BASE_URL = isStagingEnv
   : 'https://instalura-api.omariosouto.vercel.app';
 
 export const loginService = {
-  async login({ username, password }) {
-    return HttpClient(`${BASE_URL}/api/login`, {
+  async login(
+    { username, password },
+    setCookieModule = setCookie,
+    HttpClientModule = HttpClient,
+  ) {
+    return HttpClientModule(`${BASE_URL}/api/login`, {
       method: 'POST',
       body: {
         username, // 'omariosouto'
@@ -37,9 +40,13 @@ export const loginService = {
     })
       .then((respostaConvertida) => {
         const { token } = respostaConvertida.data;
+        const hasToken = token;
+        if (!hasToken) {
+          throw new Error('Failed to login');
+        }
         const DAY_IN_SECONDS = 86400;
         // Salvar o Token
-        setCookie(null, 'APP_TOKEN', token, {
+        setCookieModule(null, 'APP_TOKEN', token, {
           path: '/',
           maxAge: DAY_IN_SECONDS * 7,
         });
@@ -48,7 +55,7 @@ export const loginService = {
         };
       });
   },
-  logout() {
-    destroyCookie(null, 'APP_TOKEN');
+  async logout(destroyCookieModule = destroyCookie) {
+    destroyCookieModule(null, 'APP_TOKEN');
   },
 };
