@@ -1,23 +1,33 @@
-import React from 'react';
-import { Box } from '../src/components/foundation/layout/Box';
+import { GraphQLClient, gql } from 'graphql-request';
+import AboutScreen from '../src/components/screens/AboutScreen';
 import websitePageHOC from '../src/components/wrappers/WebsitePage/hoc';
 
-function PageSobre() {
-  return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      flex="1"
-    >
-      Página Sobre
-    </Box>
-  );
+export async function getStaticProps() {
+  const TOKEN = 'aa4ff135fbf11f594a1bb42640dc67';
+  const DatoCMSURL = 'https://graphql.datocms.com/';
+
+  const client = new GraphQLClient(DatoCMSURL, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+  });
+
+  const query = gql`
+    query {
+      pageSobre {
+        pageTitle
+        pageDescription
+      }
+    }
+  `;
+
+  const messages = await client.request(query);
+
+  return {
+    props: {
+      messages,
+    },
+  };
 }
 
-export default websitePageHOC(PageSobre, {
-  pageWrapperProps: {
-    seoProps: {
-      headTitle: 'Sobre',
-    },
-  },
-});
+export default websitePageHOC(AboutScreen);
