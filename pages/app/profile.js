@@ -1,7 +1,7 @@
 import React from 'react';
 import { authService } from '../../src/services/auth/authService';
 import { useUserService } from '../../src/services/user/hook';
-import { userService } from '../../src/services/user/userService';
+// import { userService } from '../../src/services/user/userService';
 
 // eslint-disable-next-line no-unused-vars
 export default function ProfilePage(_props) {
