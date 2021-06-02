@@ -1,14 +1,23 @@
 import React from 'react';
 import { authService } from '../../src/services/auth/authService';
-import { userService } from '../../src/services/user/userService';
+import { useUserService } from '../../src/services/user/hook';
+// import { userService } from '../../src/services/user/userService';
 
-export default function ProfilePage(props) {
+// eslint-disable-next-line no-unused-vars
+export default function ProfilePage(_props) {
+  const dados = useUserService.getProfilePage();
+
   return (
     <div>
       Página de Profile!
-      <pre>
+
+      {dados.loading && 'Loading... '}
+      {!dados.loading && dados.data && 'Carregou com sucesso'}
+      {!dados.loading && dados.error}
+
+      {/* <pre>
         {JSON.stringify(props, null, 4)}
-      </pre>
+      </pre> */}
       <img src="https://media.giphy.com/media/bn0zlGb4LOyo8/giphy.gif" alt="Nicolas Cage" />
     </div>
   );
@@ -20,14 +29,14 @@ export async function getServerSideProps(ctx) {
 
   if (hasActiveSession) {
     const session = await auth.getSession();
-    const profilePage = await userService.getProfilePage(ctx);
+    // const profilePage = await userService.getProfilePage(ctx);
     return {
       props: {
         user: {
           ...session,
-          ...profilePage.user,
+          // ...profilePage.user,
         },
-        posts: profilePage.posts,
+        // posts: profilePage.posts,
       },
     };
   }
