@@ -44,7 +44,7 @@
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/react-hooks": "^5.1.2",
-    "@types/jest": "^26.0.22",
+    "@types/jest": "^28.1.4",
     "babel-plugin-styled-components": "^1.8.0",
     "cypress": "^7.1.0",
     "cz-conventional-changelog": "^3.3.0",
@@ -57,7 +57,7 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^4.3.8",
-    "jest": "^26.6.3",
+    "jest": "^28.1.2",
     "jest-canvas-mock": "^2.3.1",
     "jest-styled-components": "^7.0.4",
     "start-server-and-test": "^1.12.3"
